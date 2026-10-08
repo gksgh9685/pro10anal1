@@ -28,3 +28,89 @@ print(num_arr[0], ' ', num_arr[1], ' ', id(num_arr[0]), ' ', id(num_arr[1]))
 # num_arr[0] : 배열 내부 원소를 읽어서 numpy scalar 객체로 꺼냄
 print(num_arr * 10) # [10 20 30 40 50 60 70 80 90]
 
+print()
+b = np.array([[1,2,3], [4,5,6]]) # python의 중첩리스트를 배열화
+print(b,' ', b.shape,' ', b.ndim, ' ', b.size)   # (2,3) 2행 3열짜리 배열  2 by 3, 2*3로 표현
+print(b[0], ' ', b[[0]], ' ', b[0, 0])  # [1,2,3] [[1 2 3]] 1
+
+print()
+# 배열 선언 후 자동으로 값 채우기
+c = np.zeros((2,2)) # [[0. 0.] [0. 0.]]
+print(c)
+print()
+
+d = np.ones((2, 3)) # [[1. 1. 1.] [1. 1. 1.]]
+print(d)
+print()
+
+e = np.eye(3)   # 단위 행렬(주대각선은 1, 나머지는 0으로 채움) [[1. 0. 0.] [0. 1. 0.] [0. 0. 1.]]
+print(e)
+
+print('\n난수 발생 ---') 
+print(np.random.rand(5))    # 균등 분포 (0 이상 1미만의 난수)
+print(np.random.randn(5))    # 정규 분포 (평균 0, 표준편차 1인 난수 5개 발생)
+
+np.set_printoptions(threshold=np.inf)   # 너무 길면 ...이 나오는데 이를 무시
+print(np.mean(np.random.rand(5000)))    
+print(np.mean(np.random.randn(5000)))   
+print()
+np.random.seed(0)   # 0번째 난수표를 출력해라. 난수를 출력하지만, 고정된 난수값이 출력됨.
+print(np.random.randn(2,3))
+
+print('\n배열의 인덱싱과 슬라이싱')
+aa = np.array([1,2,3,4,5])   #(1,2,3,4,5), {1,2,3,4,5}
+print(aa, ' ', aa[1]) # 인덱싱  (0부터 시작)
+print(aa[1:4])       # 슬라이싱 : 1이상 4미만 인덱스에 해당하는 값 출력
+print(aa[1:])
+print(aa[0:5:1])     # [a:b:c] = [start:end:step]  a=시작, b=끝 c=스텝
+print(aa[0:5:2])
+print(aa[-2:])
+print(aa[-4:-1])     # [2,3,4]
+
+print()
+bb = aa # 주소 치환
+print(aa)
+print(bb)
+print(id(aa), ' ', id(bb))  # 2370630814096   2370630814096
+bb[0] = 99
+print(bb)   # [99  2  3  4  5]
+print(aa)   # [99  2  3  4  5]
+
+print()
+cc = np.copy(aa)    # 복사본 별도 생성
+print(aa)
+print(cc)
+cc[0] = 77
+print(aa)   # [99  2  3  4  5]
+print(cc)   # [77  2  3  4  5]
+print(id(aa), ' ', id(cc))  # 1682976704912   1682977804272
+
+print('\n\n2차원배열의 인덱싱과 슬라이싱')
+dd = np.array([
+    [1,2,3,4],
+    [5,6,7,8],
+    [9,10,11,12]
+])
+print(dd, '\n', dd.shape)
+print('인덱싱 ---')
+print(dd[0])    # 0번째행 열 요소값 모두 출력
+print(dd[0,0])
+print(dd[2,3])
+print('슬라이싱 ---')
+print(dd[0:2])  # 0행 이상 2행 미만
+print(dd[1:])   # 1행 이상 모두 출력
+print(dd[:,0])  # 모든 행 0번째 열      [1 5 9]
+print(dd[:,[1]])# 모든 행의 1번열을 가져오되, 2차원 형태 유지 | [[2][6][10]]
+print(dd[1:3, 1:3]) # 1행,2행의 1열 2열 출력
+print(dd[::])       # 모든행 모든열 출력
+print(dd[::2, :])   # 0행, 2행의 모든열 출력
+print(dd[::, ::2])  # 모든행, 0열, 2열 출력
+print(dd[::2, ::2]) # 0행,2행의 0열, 2열 출력
+
+print(dd[-1, -1])   # 마지막행, 마지막 열 값 1개 출력 : 12
+print(dd[-1])       # 마지막행 출력 : [9 10 11 12]
+print(dd[:, -1])    # 모든행의 마지막열 출력 : [ 4  8 12]
+print(dd[::-1])     # 행역순
+print(dd[:, ::-1])  # 열역순
+
+
