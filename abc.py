@@ -45,8 +45,8 @@ def grades_std(grades):
 print('표준편차는', grades_std(grades))
 
 print('\n넘파이 모듈이 지원하는 함수 사용')
-import numpy
-print('합은 ',numpy.sum(grades))
-print('평균은 ',numpy.mean(grades))
-print('분산은 ',numpy.var(grades))
-print('표준편차는 ',numpy.std(grades))
+import numpy1
+print('합은 ',numpy1.sum(grades))
+print('평균은 ',numpy1.mean(grades))
+print('분산은 ',numpy1.var(grades))
+print('표준편차는 ',numpy1.std(grades))
