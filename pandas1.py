@@ -1,0 +1,120 @@
+# 고수준의 자료구조(series, dataframe)와 빠르고 쉬운 데이터 분석용 함수 제공
+# 통합된 시계열 연산, 축약연산, 누락 데이터 처리, sql, 시각화 ...등을 제공
+# 데이터 랭글링(data wrangling), 데이터 먼징(data munging)을 효율적으로 처리
+# : 분석이나 머신러닝에 활용하기 위해 가공되지 않은 원시 데이터(raw data)를 정리,변환,구조
+
+import numpy as np
+import pandas as pd
+from pandas import Series, DataFrame
+
+# series : 일련의 객체를 담을 수 있는 1차원 배열과 같은 자료구조로 색인(index)를 갖는다.
+obj = pd.Series([3, 7, -5, 4])  # (3,7,-5,4) 은 됨, {3,7,-5,4} 은 안됨, dict 는 됨
+# obj = pd.Series([3, 7, -5, 4, '일'])    # 요소값 모두가 OBJECT TYPE
+print(obj, type(obj))
+
+print()
+obj2 = pd.Series([3,7,-5,4], index = ['a', 'b', 'c', 'd'])
+print(obj2)
+print(obj2.sum(), ' ', np.sum(obj2), ' ', sum(obj2))
+print(obj2.std())   # 5.123475382979799 pandas의 함수는 numpy 기반
+
+print(obj2.index)   # index(색인)만 출력
+print(obj2.values)   # 값만 출력
+
+# 인덱싱 / 슬라이싱
+print(obj2['a'])    # a 인덱스의 값 3 출력
+print(obj2[['a']])  # a   3
+
+print(obj2[['a', 'b']])    # a    3 | b    7
+print(obj2['a': 'c'])    # a    3 | b    7 | c    -5
+
+print()
+# print(obj2[2])  # 인덱스 순서
+print(obj.iloc[2])  # iloc[위치 번호]   -series의 2번째 위치에 있는 값
+print(obj2.loc['c'])    # loc[인덱스이름]
+
+print()
+print(obj2[1:3])
+print(obj2.iloc[[2, 1]])    # 위치 기반 2번, 1번 순서대로 출력
+print(obj2.iloc[[1, 2]])
+
+print()
+print('a' in obj2)  # 인덱스에 'a' 여부 확인 true
+print('k' in obj2)
+
+print('\n파이썬 dict 자료를 series 객체로 생성')
+names = {'mouse':5000, 'keyboard':35000, 'monitor':55000}
+print(names, type(names))
+
+obj3 = Series(names)
+print(obj3, type(obj3))     # monitor     55000
+obj3.index = ['마우스','키보드','모니터']
+print(obj3, type(obj3))     # 모니터    55000
+
+obj3.name = '상품가격'
+print(obj3)     # Name: 상품가격, dtype: int64
+
+print('-------------')
+# dataframe : 
+# 표모양(2차원 형태 자료)의 자료구조로 여러 개의 칼럼을 갖는다. (series가 모인)
+# 각 칼럼은 서로 다른 종류의 값을 기억할 수 있다.
+# 같은 길이의 리스트에 담긴 dict type의 데이터를 이용해 DataFrame
+
+df = pd.DataFrame(obj3)
+print(df, type(df))     # class 'panda.dataframe'
+
+print()
+data = {
+    'irum' : ['홍길동','한국인','신기해','공기밥','한가해'],
+    'juso' : ('역삼동','신당동', '역삼동', '산사동', '양재동'),
+    'nai' :[23,25,33,30,35], 
+}
+frame = pd.DataFrame(data)  # dict -> dataframe
+print(frame)
+
+print()
+print(frame['irum'], type(frame['irum']))   # class 'pandas.series'
+print(frame.irum, type(frame.irum))         # 위에와 같은 코드다.
+
+print(DataFrame(data=data, columns=['juso','irum','nai']))  # 열(column) 순서 변경
+
+# NaN (Not a Number, 결측치 또는 값이 없거나 알 수 없는 missing value를 말함)
+frame2 = pd.DataFrame(data, columns=['irum','nai','juso','tel'], index=['a','b','c','d','e'])
+print(frame2)
+
+frame2['tel'] = '111-1111'
+print(frame2)
+
+print()
+val = pd.Series(['222-2222','333-3333','444-4444'], index=['b','c','e'])
+print(val)
+
+print()
+frame2['tel']=val   # 기존 자료 덮어쓰기
+print(frame2)
+
+print()
+print(frame2.T) # 전치  | 행과 열이 바뀜
+
+print()
+print(frame2.values, type(frame2.values))   # class 'numpy.ndarray
+print(frame2.values[0,1])       # 23
+print(frame2.values[0:2])       # [['홍길동' 23 '역삼동' nan] ['한국인' 25 '신당동' '222-2222']]
+
+print()
+# 삭제
+frame3 = frame2.drop('d')   # 행삭제
+# frame3 = frame2.drop('d', axis=0)   # 행삭제
+print(frame3)
+
+#frame4 = frame2.drop('tel')   # 열삭제
+frame4 = frame2.drop('tel', axis=1)   # 열삭제
+print(frame4)
+
+print('***-------------')
+print(frame2)
+print(frame2.sort_index(axis=0, ascending=False))   # 행 단위 정렬
+print(frame2.sort_index(axis=1, ascending=True))   # 열 단위 정렬
+
+print()
+print(frame2.rank(axis=0))  # 순위 매김
