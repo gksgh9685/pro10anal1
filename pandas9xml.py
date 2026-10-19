@@ -43,10 +43,12 @@ hour = weather.get('hour')
 print(f'{year}년 {month}월 {day}일 {hour}시 현재 예보')
 
 # 각 지역 순회
-for local in weather.findall('local'):
-    name = local.text.strip()   # 지역명 (태그 안에 문자열)
-    desc = local.get('desc')    # 온도 (요소의 ta 속성값)
-    print(f'{name} 지역 온도는 {desc}')
+for local in weather.findall("local"):
+    name = local.text.strip()  # 지역명 (태그 안에 문자열)
+    # print(name, local.attrib)
+    desc = local.get("desc")   # 날씨 (요소의 desc 속성값)
+    ta = local.get("ta")       # 온도 (요소의 ta 속성값)
+    print(f"{name} 지역 날씨는 {desc} 온도는 {ta}")
 
 
 
