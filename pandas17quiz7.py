@@ -26,7 +26,7 @@ conn = None
 
 try:
 #    conn = pymysql.connect(**config)
-    # - 사변 이름 부서명 성별 연봉을 읽어 dataframe을 작성
+    # - 사번 이름 부서명 성별 연봉을 읽어 dataframe을 작성
     sql = '''
         select jikwonno 사번, jikwonname 직원명, busername 부서명, jikwongen 성별, jikwonpay 연봉
         from jikwon inner join buser
@@ -61,3 +61,4 @@ except Exception as e:
 finally:
 #    conn.close()
     engine.dispose()
+
